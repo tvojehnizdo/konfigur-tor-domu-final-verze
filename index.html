@@ -1,54 +1,67 @@
- (cd "$(git rev-parse --show-toplevel)" && git apply --3way <<'EOF' 
-diff --git a//dev/null b/index.html
-index 0000000000000000000000000000000000000000..bb7e635e18341519efcdf8fda96564f0359942f6 100644
---- a//dev/null
-+++ b/index.html
-@@ -0,0 +1,45 @@
-+<!DOCTYPE html>
-+<html lang="cs">
-+<head>
-+  <meta charset="UTF-8">
-+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-+  <title>Konfigurátor domu</title>
-+  <script defer src="main.js"></script>
-+  <style>
-+    body { font-family: Arial, sans-serif; padding: 20px; }
-+    .form-group { margin-bottom: 1rem; }
-+  </style>
-+</head>
-+<body>
-+  <h1>Konfigurátor domu</h1>
-+  <form id="config-form">
-+    <div class="form-group">
-+      <label for="disposition">Dispozice:</label>
-+      <select id="disposition" name="disposition">
-+        <option value="1kk">1+kk</option>
-+        <option value="2kk">2+kk</option>
-+        <option value="3kk">3+kk</option>
-+        <option value="4kk">4+kk</option>
-+      </select>
-+    </div>
-+    <div class="form-group">
-+      <label for="area">Užitná plocha (m²):</label>
-+      <input type="number" id="area" name="area" min="10" required>
-+    </div>
-+    <div class="form-group">
-+      <label for="delivery">Typ dodání:</label>
-+      <select id="delivery" name="delivery">
-+        <option value="shell">Hrubá stavba</option>
-+        <option value="turnkey">Na klíč</option>
-+      </select>
-+    </div>
-+    <div id="price-display" class="form-group">
-+      <!-- Dynamická cena se zobrazí zde -->
-+    </div>
-+    <button type="submit">Odeslat poptávku</button>
-+  </form>
-+  <div id="visualization">
-+    <!-- Zde se zobrazí vizualizace domu -->
-+  </div>
-+</body>
-+</html>
- 
-EOF
-)
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Konfigurátor domu</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="main.js" defer></script>
+</head>
+<body>
+  <h1>Konfigurátor domu</h1>
+  <form id="config-form">
+    <fieldset id="disposition-cards">
+      <legend>Dispozice</legend>
+      <label><input type="radio" name="disposition" value="2kk" checked>2+kk</label>
+      <label><input type="radio" name="disposition" value="3kk">3+kk</label>
+      <label><input type="radio" name="disposition" value="4kk">4+kk</label>
+    </fieldset>
+
+    <label for="area">Užitná plocha (m²)</label>
+    <input type="number" id="area" min="30" value="60">
+
+    <label for="delivery">Typ dodání</label>
+    <select id="delivery">
+      <option value="shell">Hrubá stavba</option>
+      <option value="turnkey">Na klíč</option>
+    </select>
+
+    <label for="shape">Tvar domu</label>
+    <select id="shape">
+      <option value="square">Čtverec</option>
+      <option value="rectangle">Obdélník</option>
+    </select>
+
+    <label for="roof">Typ střechy</label>
+    <select id="roof">
+      <option value="flat">Plochá</option>
+      <option value="gable">Sedlová</option>
+    </select>
+
+    <label for="floors">Počet podlaží</label>
+    <select id="floors">
+      <option value="1">1</option>
+      <option value="2">2</option>
+    </select>
+
+    <fieldset>
+      <legend>Vybavení</legend>
+      <label><input type="checkbox" class="equipment" value="garage">Garáž</label>
+      <label><input type="checkbox" class="equipment" value="solar">Solární panely</label>
+      <label><input type="checkbox" class="equipment" value="pool">Bazén</label>
+    </fieldset>
+
+    <div id="price"></div>
+
+    <button type="submit">Odeslat poptávku</button>
+  </form>
+
+  <h2>Souhrn</h2>
+  <div id="summary"></div>
+
+  <h2>Náhled</h2>
+  <div id="visualization">
+    <img id="visualization-img" alt="Vizualizace domu" />
+  </div>
+</body>
+</html>
